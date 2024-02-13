@@ -34,10 +34,12 @@ else:
 
     DATA = "../train-data/data.pkl"
 
+CATEGORIES = ['country', 'pop', 'rap', 'rock']
+
+
 
 
 def GetData(dir_name: str = DIRNAME, save_data:bool = False):
-    CATEGORIES = ['rap', 'pop', 'country', 'rock']
     DATA = load_files(DIRNAME, categories=CATEGORIES)
     XTRAIN, XTEST, YTRAIN, YTEST = train_test_split(DATA.data, DATA.target,
                                                 train_size=0.8, test_size=0.2)
@@ -48,6 +50,8 @@ def GetData(dir_name: str = DIRNAME, save_data:bool = False):
 
         pickle.dump(XTEST, file=open(FEATURES_T, 'wb'))
         pickle.dump(YTEST, file=open(LABELS_T, 'wb'))
+
+    print(DATA.target_names)
 
 
     return XTRAIN, YTRAIN, XTEST, YTEST, DATA
@@ -116,4 +120,4 @@ def PredictOnData(pipeline: Pipeline, input_t):
     inp = [input_t]
     predicted = pipeline.predict(inp)
     for _, category in zip(inp, predicted):
-        print(f"genre => {category}")
+        print(f"genre => {CATEGORIES[category]}")
