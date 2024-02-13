@@ -2,15 +2,17 @@
 
 import argparse
 import pickle
+import numpy as np
 
 from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
 from sklearn.utils import Bunch
 from sklearn.datasets import load_files
 from sklearn.pipeline import Pipeline
-from sklearn.linear_model import SGDClassifier
+# from sklearn.linear_model import SGDClassifier
+from sklearn.naive_bayes import ComplementNB
 from  sklearn.model_selection import GridSearchCV, train_test_split
 
-import numpy as np
+
 
 if __name__ != "__main__":
     DIRNAME = "./train-data"
@@ -23,6 +25,8 @@ if __name__ != "__main__":
 
     DATA = "./train-data/data.pkl"
 
+    STOPWORDS = "./train-data/stop-words.pkl"
+
 else:
     DIRNAME = "../train-data"
 
@@ -34,9 +38,9 @@ else:
 
     DATA = "../train-data/data.pkl"
 
+    STOPWORDS = "../train-data/stop-words.pkl"
+
 CATEGORIES = ['country', 'pop', 'rap', 'rock']
-
-
 
 
 def GetData(dir_name: str = DIRNAME, save_data:bool = False):
@@ -91,17 +95,18 @@ C'mon, c'mon, c'mon!
 """
 
 def MakePipeline() -> Pipeline:
+    stop_list = pickle.load(open(STOPWORDS, 'rb'))
     text_clf = Pipeline([
-        ('vect', CountVectorizer()),
+        ('vect', CountVectorizer(stop_words=stop_list)),
         ('tfidf', TfidfTransformer()),
-        ('clf', SGDClassifier(loss='hinge', penalty='l2', alpha=1e-3, max_iter=5))])
+        ('clf', ComplementNB(alpha=0.1))])
     return text_clf
 
 def TrainDataAndSave(pipeline: Pipeline, features: str, labels: str, modelName: str = "model.pkl") -> None:
     parameters = {
      'vect__ngram_range': [(1, 1), (1, 2)],
      'tfidf__use_idf': (True, False),
-     'clf__alpha': (1e-2, 1e-3),
+     'clf__alpha': (1e-2, 1e-3,  1, 2),
     }
 
     grid_search_pipeline = GridSearchCV(pipeline, parameters, cv=5, n_jobs=-1)
