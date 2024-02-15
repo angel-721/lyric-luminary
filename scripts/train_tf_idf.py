@@ -124,5 +124,8 @@ def TestModel(pipeline: Pipeline, features: str, labels: str) -> None:
 def PredictOnData(pipeline: Pipeline, input_t):
     inp = [input_t]
     predicted = pipeline.predict(inp)
+    label = ""
     for _, category in zip(inp, predicted):
-        print(f"genre => {CATEGORIES[category]}")
+        # this loop should only run once
+        label = CATEGORIES[category]
+    return label

@@ -294,3 +294,5 @@ dist
 nimcache/
 nimblecache/
 htmldocs/
+
+*.pkl

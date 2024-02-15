@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import pickle
+import sys
 from scripts.train_tf_idf import *
 
 def parseArgs():
@@ -22,7 +23,9 @@ def main(args):
 
     if(args.action == 'predict'):
         model = pickle.load(open(args.model_name,'rb'))
-        PredictOnData(model, TESTSONG)
+        label = PredictOnData(model, TESTSONG)
+        print(label)
+        sys.stdout.flush()
 
     elif(args.action == 'get-data'):
         GetData(save_data=True)
