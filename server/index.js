@@ -15,12 +15,16 @@ app.post("/lyrics", function (request, response) {
 
 	const song = request.body;
 	let lyrics = song.lyrics;
-	var process = spawn("python", ["./main.py", "predict"]);
+	let input = '"';
+	input += lyrics;
+	input += '"';
+	console.log(input);
+	var process = spawn("python", ["./main.py", "predict", "-s" + input ]);
 
-	response.setHeader("Access-Control-Allow-Origin", "*");
 	process.stdout.on("data", (data) => {
 		let output = data.toString("utf8");
-		response.status(201).send("Predicted lablel: " +  output);
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.status(201).send("Predicted lablel: " + output);
 	});
 
 	process.stderr.on("data", (data) => {

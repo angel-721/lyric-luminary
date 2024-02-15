@@ -15,6 +15,7 @@ def parseArgs():
                         type=str)
 
     parser.add_argument('--load-data', '-d', default=0, type=int)
+    parser.add_argument('--song-lyrics', '-s', default="", type=str)
 
     args = parser.parse_args()
     return args
@@ -23,7 +24,7 @@ def main(args):
 
     if(args.action == 'predict'):
         model = pickle.load(open(args.model_name,'rb'))
-        label = PredictOnData(model, TESTSONG)
+        label = PredictOnData(model, args.song_lyrics)
         print(label)
         sys.stdout.flush()
 
