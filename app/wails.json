@@ -1,0 +1,14 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "music-genere-lyric-classification",
+	"assetdir": "backend",
+  "outputfilename": "music-genere-lyric-classification",
+  "frontend:install": "npm install",
+  "frontend:build": "npm run build",
+  "frontend:dev:watcher": "npm run dev",
+  "frontend:dev:serverUrl": "auto",
+  "author": {
+    "name": "angel-721",
+    "email": "angelvelasquez2002@gmail.com"
+  }
+}
