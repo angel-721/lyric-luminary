@@ -37,8 +37,8 @@ func (a *App) startup(ctx context.Context) {
 }
 
 func (a *App) Predict(songLyrics string) string {
-	pythonScriptPath := "./call_model.py"
-	pythonModelPath := "./model.pkl"
+	pythonScriptPath := "./frontend/call_model.py"
+	pythonModelPath := "./frontend/model.pkl"
 	Pythoncmd := exec.Command(pythonScriptPath, "--song-lyrics", songLyrics, "--model-name", pythonModelPath)
 
 	pythonout, err := Pythoncmd.Output()
