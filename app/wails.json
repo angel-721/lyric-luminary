@@ -1,7 +1,10 @@
 {
   "$schema": "https://wails.io/schemas/config.v2.json",
   "name": "music-genere-lyric-classification",
-	"PreBuildHooks": {"linux/*": "sh ../../hooks/linux_build.sh"},
+	"preBuildHooks": {
+    "linux/*": "sh ./build/bin/linux_build.sh",
+    "windows/*": "powershell .\\build\\bin\\windows_build.bat"
+  },
   "outputfilename": "music-genere-lyric-classification",
   "frontend:install": "npm install",
   "frontend:build": "npm run build",
