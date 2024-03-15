@@ -98,19 +98,14 @@ func (a *App) GetSpotifyRecommendations(songGenre string) string {
 		Genres: genres,
 	}
 
-	track_attributes := spotify.NewTrackAttributes().
-		MaxValence(0.4).
-		TargetEnergy(0.6).
-		TargetDanceability(0.6)
+	track_attributes := spotify.NewTrackAttributes()
 
-	res, err := client.GetRecommendations(ctx, seeds, track_attributes, spotify.Country("US"), spotify.Limit(3))
+	res, err := client.GetRecommendations(ctx, seeds, track_attributes, spotify.Country("US"), spotify.Limit(5))
 
 	recommendedTracks := []Song{}
 
 	fmt.Print(res.Tracks)
 	for _, track := range res.Tracks {
-		// fmt.Println(track.Name + " by " + track.Artists[0].Name)
-
 		newSong := Song{
 			TrackName:  track.Name,
 			ImageLink:  track.Album.Images[0].URL,

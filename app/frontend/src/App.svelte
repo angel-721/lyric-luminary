@@ -8,24 +8,33 @@
 	let songLyrics = ""
 	let recommendations = []
 
-	function predict(){
+
+	// States
+	let isPredicting = false
+
+	async function predict(){
+		isPredicting = true
 		if(songLyrics == ""){
 			alert("Please input a song!")
+			isPredicting = false
 			return
 		}
+
 		Predict(songLyrics).then(result => {
 			if(result == "rap")
 				predictedGenre = "hip-hop"
 			else
 				predictedGenre = result
 		})
+		isPredicting = false
 	}
 
-	function fetchRecommendations(){
+	async function fetchRecommendations(){
 		if(predictedGenre == "" || predictedGenre == "Invalid"){
 			alert("Please predict before getting recommendations based off prediction!")
 			return
 		}
+
 		GetSpotifyRecommendations(predictedGenre).then(result => {
 			const recommendedTracks = JSON.parse(result);
 			recommendations = recommendedTracks
@@ -43,7 +52,12 @@
 		rows="15" id="lyric-text-area" />
 	</div>
 
-	<button on:click={predict}>Predict!</button>
+	{#if isPredicting}
+    <button aria-busy="true" aria-label="Please wait…">Predicting...</button>
+  {:else}
+    <button on:click={predict}>Predict!</button>
+  {/if}
+
 	<button on:click={fetchRecommendations}>Get Spotify Recommendations</button>
 	<p>{predictedGenre}</p>
 
