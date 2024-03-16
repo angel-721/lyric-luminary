@@ -300,3 +300,6 @@ htmldocs/
 build/bin
 node_modules
 frontend/dist
+
+app/call_model.py
+app/model.pkl
