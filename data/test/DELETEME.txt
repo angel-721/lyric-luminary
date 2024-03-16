@@ -1,0 +1,45 @@
+Please organize the lyric files into folders based on their respective categories.
+Within each category folder, name the lyric files sequentially as file_1.txt, file_2.txt, and so on.
+
+
+test/
+├── rock/
+│   ├── file_1.txt
+│   ├── file_2.txt
+│   └── ...
+├── metal/
+│   ├── file_1.txt
+│   ├── file_2.txt
+│   └── ...
+├── pop/
+│   ├── file_1.txt
+│   ├── file_2.txt
+│   └── ...
+├── indie/
+│   ├── file_1.txt
+│   ├── file_2.txt
+│   └── ...
+├── r&b/
+│   ├── file_1.txt
+│   ├── file_2.txt
+│   └── ...
+├── folk/
+│   ├── file_1.txt
+│   ├── file_2.txt
+│   └── ...
+├── electronic/
+│   ├── file_1.txt
+│   ├── file_2.txt
+│   └── ...
+├── jazz/
+│   ├── file_1.txt
+│   ├── file_2.txt
+│   └── ...
+├── hip-hop/
+│   ├── file_1.txt
+│   ├── file_2.txt
+│   └── ...
+└── country/
+    ├── file_1.txt
+    ├── file_2.txt
+    └── ...
