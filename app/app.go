@@ -12,12 +12,22 @@ import (
 	"github.com/zmb3/spotify/v2"
 	spotifyauth "github.com/zmb3/spotify/v2/auth"
 	"golang.org/x/oauth2/clientcredentials"
+	"time"
 )
 
+func formatDuration(durationMs int) string {
+    duration := time.Duration(durationMs) * time.Millisecond
+    minutes := int(duration.Minutes())
+    seconds := int(duration.Seconds()) % 60
+    return fmt.Sprintf("%d:%02d", minutes, seconds)
+}
+
 type Song struct {
-	TrackName  string `json:"track_name"`
-	ImageLink  string `json:"image_link"`
-	ArtistName string `json:"artist_name"`
+	TrackName     string  `json:"track_name"`
+	ImageLink     string  `json:"image_link"`
+	ArtistName    string  `json:"artist_name"`
+	TrackDuration string `json:"duration_ms"`
+	PreviewLink 	string `json:"preview_link"`
 }
 
 // App struct
@@ -37,8 +47,8 @@ func (a *App) startup(ctx context.Context) {
 }
 
 func (a *App) Predict(songLyrics string) string {
-	pythonScriptPath := "./frontend/call_model.py"
-	pythonModelPath := "./frontend/model.pkl"
+	pythonScriptPath := "./call_model.py"
+	pythonModelPath := "./model.pkl"
 	Pythoncmd := exec.Command(pythonScriptPath, "--song-lyrics", songLyrics, "--model-name", pythonModelPath)
 
 	pythonout, err := Pythoncmd.Output()
@@ -62,7 +72,6 @@ func (a *App) Predict(songLyrics string) string {
 
 func (a *App) GetSpotifyRecommendations(songGenre string) string {
 	err := godotenv.Load()
-
 	if err != nil {
 		fmt.Print(err.Error())
 		panic(err)
@@ -73,7 +82,6 @@ func (a *App) GetSpotifyRecommendations(songGenre string) string {
 
 	fmt.Println(ClientID)
 	fmt.Println(ClientSecret)
-
 
 	ctx := context.Background()
 	config := &clientcredentials.Config{
@@ -107,9 +115,11 @@ func (a *App) GetSpotifyRecommendations(songGenre string) string {
 	fmt.Print(res.Tracks)
 	for _, track := range res.Tracks {
 		newSong := Song{
-			TrackName:  track.Name,
-			ImageLink:  track.Album.Images[0].URL,
-			ArtistName: track.Artists[0].Name,
+			TrackName:     track.Name,
+			ImageLink:     track.Album.Images[0].URL,
+			ArtistName:    track.Artists[0].Name,
+			TrackDuration: formatDuration(track.Duration),
+			PreviewLink:   track.PreviewURL,
 		}
 		recommendedTracks = append(recommendedTracks, newSong)
 

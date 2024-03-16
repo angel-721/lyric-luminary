@@ -7,10 +7,16 @@
 	let predictedGenre = ""
 	let songLyrics = ""
 	let recommendations = []
+	$: recommendations = recommendations;
 
+	let currentSong = null
 
 	// States
 	let isPredicting = false
+	let isRecommending = false
+	let hasPredicted = false
+	let hasRecommended = false
+
 
 	async function predict(){
 		isPredicting = true
@@ -27,11 +33,14 @@
 				predictedGenre = result
 		})
 		isPredicting = false
+		hasPredicted = true
 	}
 
 	async function fetchRecommendations(){
-		if(predictedGenre == "" || predictedGenre == "Invalid"){
+		isRecommending = true
+		if(predictedGenre == "" || predictedGenre == "Invalid" || hasPredicted == false){
 			alert("Please predict before getting recommendations based off prediction!")
+			isRecommending = false
 			return
 		}
 
@@ -39,6 +48,26 @@
 			const recommendedTracks = JSON.parse(result);
 			recommendations = recommendedTracks
 		})
+		isRecommending = false
+		hasRecommended = true
+	}
+
+	function playPreview(songUrl){
+
+		if(currentSong == null){
+			currentSong = new Audio(songUrl)
+		}
+		else if(currentSong != null && currentSong.src != songUrl){
+			currentSong.pause();
+			currentSong.currentTime = 0;
+			currentSong.src = songUrl
+		}
+		else if(currentSong != null && currentSong.src == songUrl){
+			currentSong.pause();
+			currentSong.currentTime = 0;
+			return;
+		}
+		currentSong.play()
 	}
 
 </script>
@@ -58,29 +87,106 @@
     <button on:click={predict}>Predict!</button>
   {/if}
 
-	<button on:click={fetchRecommendations}>Get Spotify Recommendations</button>
+	{#if isRecommending}
+    <button aria-busy="true" aria-label="Please wait…">Recommending...</button>
+  {:else}
+		<button on:click={fetchRecommendations}>Get Spotify Recommendations</button>
+  {/if}
 	<p>{predictedGenre}</p>
 
+	{#if hasRecommended}
 	<h2>Recommendations</h2>
-	{#each recommendations as song}
-		<div>
-			<p>{song.track_name} by {song.artist_name}</p>
-			<img src={song.image_link} alt="">
-		</div>
-	{/each}
+
+		<table class="song-table">
+			<tr>
+				<td>
+					<div class="song-title-top-div">Title</div>
+				</td>
+				<td>
+					<div class="song-artist-top-div">Album</div>
+				</td>
+				<td>
+					<div class="song-length-top-div">Length</div>
+					</td>
+			</tr>
+		</table>
+
+		<div id="songs-div">
+		<ul id="songs-ul">
+		{#each recommendations as song}
+			<li class="song-li">
+				<table class="song-table">
+					<tr>
+						<td>
+									<div class="song-name-div">
+										<img src={song.image_link} alt="" on:click= {()  => playPreview(song.preview_link)}>
+										{song.track_name}
+									</div>
+						</td>
+						<td>
+							<div class="song-artist-div">{song.artist_name}</div>
+						</td>
+						<td>
+							<div class="song-artist-div">{song.duration_ms}</div>
+						</td>
+					</tr>
+				</table>
+			</li>
+		{/each}
+				</ul>
+			</div>
+	{/if}
+
+
 </main>
 
-<input type="checkbox" role="switch" />
-
 <style>
-.centered-text{
-	text-align: center;
-}
+	.centered-text{
+		text-align: center;
+	}
 
-#lyric-text-area{
-	height: 100%;
-	width: 70%;
-	text-align: center;
-}
+	#lyric-text-area{
+		height: 100%;
+		width: 70%;
+		text-align: center;
+	}
+
+
+	#songs-ul {
+		display: flex;
+		width: 100%;
+		flex-direction: column;
+		text-align: center;
+		padding: 0;
+		margin: 0;
+	}
+
+	.song-li:nth-child(odd) {
+		background-color: rgba(235, 235, 245, 0.03);
+	}
+
+	.song-li:hover {
+		background-color: hsla(240, 3%, 49%, 0.41);
+	}
+
+	.song-li {
+		list-style: none;
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+		color: hsl(0deg 0% 100% / 92%);
+		font-family: "Segoe UI";
+	}
+
+	.song-table {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	#song-top-div {
+		color: hsl(0deg 0% 100% / 64%);
+		text-align: center;
+		font-family: sans-serif;
+	}
+
 
 </style>
