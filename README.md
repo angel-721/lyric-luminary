@@ -1,4 +1,4 @@
-# Music Genere Lyric Classification
+# Lyric Luminary
 
 ## CS-4600 Spring 2024 
 
