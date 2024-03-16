@@ -119,15 +119,19 @@
 					<tr>
 						<td>
 									<div class="song-name-div">
-										<img src={song.image_link} alt="" on:click= {()  => playPreview(song.preview_link)}>
-										{song.track_name}
+										<img src={song.image_link} alt="" on:click= {()  =>
+											playPreview(song.preview_link)} class="song-image">
+											<div class="song-text-container">
+                  			<div class="song-text-div song-name">{song.track_name}</div>
+                  			<div class="song-text-div artist-name">{song.artist_name}</div>
+                			</div>
 									</div>
 						</td>
 						<td>
-							<div class="song-artist-div">{song.artist_name}</div>
+							<div class="song-album-div">{song.album_name}</div>
 						</td>
 						<td>
-							<div class="song-artist-div">{song.duration_ms}</div>
+							<div class="song-duration-div">{song.duration_ms}</div>
 						</td>
 					</tr>
 				</table>
@@ -149,43 +153,6 @@
 		height: 100%;
 		width: 70%;
 		text-align: center;
-	}
-
-
-	#songs-ul {
-		display: flex;
-		width: 100%;
-		flex-direction: column;
-		text-align: center;
-		padding: 0;
-		margin: 0;
-	}
-
-	.song-li:nth-child(odd) {
-		background-color: rgba(235, 235, 245, 0.03);
-	}
-
-	.song-li:hover {
-		background-color: hsla(240, 3%, 49%, 0.41);
-	}
-
-	.song-li {
-		list-style: none;
-		padding-top: 1rem;
-		padding-bottom: 1rem;
-		color: hsl(0deg 0% 100% / 92%);
-		font-family: "Segoe UI";
-	}
-
-	.song-table {
-		width: 100%;
-		table-layout: fixed;
-	}
-
-	#song-top-div {
-		color: hsl(0deg 0% 100% / 64%);
-		text-align: center;
-		font-family: sans-serif;
 	}
 
 

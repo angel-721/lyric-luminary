@@ -7,27 +7,28 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+	"time"
 
 	"github.com/joho/godotenv"
 	"github.com/zmb3/spotify/v2"
 	spotifyauth "github.com/zmb3/spotify/v2/auth"
 	"golang.org/x/oauth2/clientcredentials"
-	"time"
 )
 
 func formatDuration(durationMs int) string {
-    duration := time.Duration(durationMs) * time.Millisecond
-    minutes := int(duration.Minutes())
-    seconds := int(duration.Seconds()) % 60
-    return fmt.Sprintf("%d:%02d", minutes, seconds)
+	duration := time.Duration(durationMs) * time.Millisecond
+	minutes := int(duration.Minutes())
+	seconds := int(duration.Seconds()) % 60
+	return fmt.Sprintf("%d:%02d", minutes, seconds)
 }
 
 type Song struct {
-	TrackName     string  `json:"track_name"`
-	ImageLink     string  `json:"image_link"`
-	ArtistName    string  `json:"artist_name"`
+	TrackName     string `json:"track_name"`
+	ImageLink     string `json:"image_link"`
+	ArtistName    string `json:"artist_name"`
+	AlbumName     string `json:"album_name"`
 	TrackDuration string `json:"duration_ms"`
-	PreviewLink 	string `json:"preview_link"`
+	PreviewLink   string `json:"preview_link"`
 }
 
 // App struct
@@ -118,6 +119,7 @@ func (a *App) GetSpotifyRecommendations(songGenre string) string {
 			TrackName:     track.Name,
 			ImageLink:     track.Album.Images[0].URL,
 			ArtistName:    track.Artists[0].Name,
+			AlbumName:     track.Album.Name,
 			TrackDuration: formatDuration(track.Duration),
 			PreviewLink:   track.PreviewURL,
 		}
