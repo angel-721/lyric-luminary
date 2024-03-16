@@ -1,6 +1,6 @@
 {
   "$schema": "https://wails.io/schemas/config.v2.json",
-  "name": "music-genere-lyric-classification",
+  "name": "Lyric Luminary",
 	"preBuildHooks": {
     "linux/*": "sh ../../hooks/linux_build.sh",
     "windows/*": "powershell .\\.\\hooks\\windows_build.bat"
