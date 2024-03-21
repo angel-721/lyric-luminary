@@ -5,51 +5,57 @@
 
 
 	let predictedGenre = ""
-	let songLyrics = ""
-	let recommendations = []
+	let songLyrics = "";
+	let recommendations = [];
 	$: recommendations = recommendations;
 
-	let currentSong = null
+	let currentSong = null;
 
 	// States
-	let isPredicting = false
-	let isRecommending = false
-	let hasPredicted = false
-	let hasRecommended = false
+	let isPredicting = false;
+	let isRecommending = false;
+	let hasPredicted = false;
+	let hasRecommended = false;
+
+  $: {
+    isPredicting;
+    console.log('isPredicting changed:', isPredicting);
+  }
 
 
-	async function predict(){
-		isPredicting = true
+	function predict(){
+		isPredicting = true;
 		if(songLyrics == ""){
-			alert("Please input a song!")
-			isPredicting = false
-			return
+			alert("Please input a song!");
+			isPredicting = false;
+			return;
 		}
 
 		Predict(songLyrics).then(result => {
 			if(result == "rap")
-				predictedGenre = "hip-hop"
+				predictedGenre = "hip-hop";
 			else
-				predictedGenre = result
+				predictedGenre = result;
+
+			isPredicting = false;
+			hasPredicted = true;
 		})
-		isPredicting = false
-		hasPredicted = true
 	}
 
-	async function fetchRecommendations(){
+	function fetchRecommendations(){
 		isRecommending = true
 		if(predictedGenre == "" || predictedGenre == "Invalid" || hasPredicted == false){
-			alert("Please predict before getting recommendations based off prediction!")
-			isRecommending = false
-			return
+			alert("Please predict before getting recommendations based off prediction!");
+			isRecommending = false;
+			return;
 		}
 
 		GetSpotifyRecommendations(predictedGenre).then(result => {
 			const recommendedTracks = JSON.parse(result);
-			recommendations = recommendedTracks
+			recommendations = recommendedTracks;
+			isRecommending = false;
+			hasRecommended = true;
 		})
-		isRecommending = false
-		hasRecommended = true
 	}
 
 	function playPreview(songUrl){
@@ -82,7 +88,7 @@
 	</div>
 
 	{#if isPredicting}
-    <button aria-busy="true" aria-label="Please wait…">Predicting...</button>
+    <button aria-busy="true">Predicting...</button>
   {:else}
     <button on:click={predict}>Predict!</button>
   {/if}
