@@ -1,11 +1,14 @@
 <script>
+  import { get } from "svelte/store";
   import { Predict } from "../wailsjs/go/main/App.js";
   import { GetSpotifyRecommendations } from "../wailsjs/go/main/App.js";
+  import { GetGeniusLyrics } from "../wailsjs/go/main/App.js";
   import "@picocss/pico";
 
   let predictedGenre = "";
   let songLyrics = "";
   let recommendations = [];
+  let songLink = "";
   $: recommendations = recommendations;
 
   let currentSong = null;
@@ -15,6 +18,7 @@
   let isRecommending = false;
   let hasPredicted = false;
   let hasRecommended = false;
+  let isLinkMode = false;
 
   $: {
     isPredicting;
@@ -23,17 +27,42 @@
 
   function predict() {
     isPredicting = true;
-    if (songLyrics == "") {
+    if (songLyrics == "" && !isLinkMode) {
       alert("Please input a song!");
       isPredicting = false;
       return;
     }
 
-    Predict(songLyrics).then((result) => {
-      predictedGenre = result;
+    if (songLink == "" && isLinkMode) {
+      alert("Please input a song!");
       isPredicting = false;
-      hasPredicted = true;
-    });
+      return;
+    }
+
+    if (isLinkMode) {
+      getSongLyrics(songLink).then((result) => {
+        console.log("Result:", result);
+        songLyrics = result;
+        Predict(songLyrics).then((genre) => {
+          predictedGenre = genre;
+          isPredicting = false;
+          hasPredicted = true;
+          isLinkMode = false;
+        });
+      });
+    } else {
+      Predict(songLyrics).then((result) => {
+        predictedGenre = result;
+        isPredicting = false;
+        hasPredicted = true;
+      });
+    }
+  }
+
+  function changeMode() {
+    songLink = "";
+    songLyrics = "";
+    isLinkMode = !isLinkMode;
   }
 
   function fetchRecommendations() {
@@ -72,24 +101,51 @@
     }
     currentSong.play();
   }
+
+  async function getSongLyrics(songUrl) {
+    let lyrics = "";
+    try {
+      lyrics = await GetGeniusLyrics(songUrl);
+    } catch (error) {
+      console.error("Error getting lyrics:", error);
+    }
+    return lyrics;
+  }
 </script>
 
 <main class="container">
   <h1 class="centered-text">Music Genre Classifier</h1>
 
-  <div class="centered-div">
-    <textarea
-      bind:value={songLyrics}
-      placeholder="Enter Song Lyrics Here"
-      rows="15"
-      id="lyric-text-area"
-    />
-  </div>
+  {#if !isLinkMode}
+    <div class="centered-div">
+      <textarea
+        bind:value={songLyrics}
+        placeholder="Enter Song Lyrics Here"
+        rows="15"
+        id="lyric-text-area"
+      />
+    </div>
+  {:else}
+    <div class="centered-div">
+      <textarea
+        bind:value={songLink}
+        placeholder="Enter Genius Song Link Here"
+        rows="5"
+        id="lyric-text-area"
+      />
+    </div>
+  {/if}
 
   {#if isPredicting}
     <button aria-busy="true">Predicting...</button>
   {:else}
     <button on:click={predict}>Predict!</button>
+  {/if}
+
+  {#if isLinkMode}
+    <button on:click={changeMode}>Manual Lyric Input</button>
+  {:else}
+    <button on:click={changeMode}>Genius Link Input</button>
   {/if}
 
   {#if isRecommending}

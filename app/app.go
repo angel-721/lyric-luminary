@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/broxgit/genius"
 	"github.com/joho/godotenv"
 	"github.com/zmb3/spotify/v2"
 	spotifyauth "github.com/zmb3/spotify/v2/auth"
@@ -18,6 +19,10 @@ import (
 // Spotify API credentials
 var ClientID string
 var ClientSecret string
+var GeniusToken string
+var GeniusClient *genius.Client
+
+// var GeniusClient
 
 func formatDuration(durationMs int) string {
 	duration := time.Duration(durationMs) * time.Millisecond
@@ -53,11 +58,17 @@ func (a *App) startup(ctx context.Context) {
 	if err != nil {
 		fmt.Print(err.Error())
 		panic(err)
+
 	}
 	ClientID = os.Getenv("SPOTIFY_ID")
 	ClientSecret = os.Getenv("SPOTIFY_SECRET")
+	GeniusToken = os.Getenv("GENIUS_TOKEN")
+
+	GeniusClient = genius.NewClient(nil, GeniusToken)
+
 	fmt.Println("SpotifyClient: ", ClientID)
 	fmt.Println("SpotifySecret: ", ClientSecret)
+	fmt.Println("GeniusToken: ", GeniusToken)
 	println("App started")
 }
 
@@ -73,18 +84,20 @@ func (a *App) Predict(songLyrics string) string {
 	}
 
 	output := strings.TrimSpace(string(pythonout))
-
-	// This is needed since spotifyapi prefers hip-hop over rap
-
 	return output
 }
 
+func (a *App) GetGeniusLyrics(songUrl string) string {
+	lyrics, err := GeniusClient.GetLyrics(songUrl)
+	if err != nil {
+		fmt.Print(err.Error())
+		panic(err)
+	}
+
+	return lyrics
+}
+
 func (a *App) GetSpotifyRecommendations(songGenre string) string {
-	// err := godotenv.Load()
-	// if err != nil {
-	// 	fmt.Print(err.Error())
-	// 	panic(err)
-	// }
 
 	fmt.Println("SpotifyClient: ", ClientID)
 	fmt.Println("SpotifySecret: ", ClientSecret)

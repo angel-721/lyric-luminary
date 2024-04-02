@@ -12,7 +12,13 @@ require (
 )
 
 require (
+	github.com/broxgit/common v0.0.0-20230608152442-9da45e59fc4f // indirect
+	github.com/rs/zerolog v1.29.1 // indirect
+)
+
+require (
 	github.com/bep/debounce v1.2.1 // indirect
+	github.com/broxgit/genius v0.1.2
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
