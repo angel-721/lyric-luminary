@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.csv
 
 # C extensions
 *.so
@@ -303,3 +304,7 @@ frontend/dist
 
 app/call_model.py
 app/model.pkl
+data/en_lyrics.csv
+data/metal_lyrics.csv
+data/train/*
+data/test/*
