@@ -15,6 +15,10 @@ import (
 	"golang.org/x/oauth2/clientcredentials"
 )
 
+// Spotify API credentials
+var ClientID string
+var ClientSecret string
+
 func formatDuration(durationMs int) string {
 	duration := time.Duration(durationMs) * time.Millisecond
 	minutes := int(duration.Minutes())
@@ -45,6 +49,16 @@ func NewApp() *App {
 // so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Print(err.Error())
+		panic(err)
+	}
+	ClientID = os.Getenv("SPOTIFY_ID")
+	ClientSecret = os.Getenv("SPOTIFY_SECRET")
+	fmt.Println("SpotifyClient: ", ClientID)
+	fmt.Println("SpotifySecret: ", ClientSecret)
+	println("App started")
 }
 
 func (a *App) Predict(songLyrics string) string {
@@ -66,17 +80,14 @@ func (a *App) Predict(songLyrics string) string {
 }
 
 func (a *App) GetSpotifyRecommendations(songGenre string) string {
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Print(err.Error())
-		panic(err)
-	}
+	// err := godotenv.Load()
+	// if err != nil {
+	// 	fmt.Print(err.Error())
+	// 	panic(err)
+	// }
 
-	ClientID := os.Getenv("SPOTIFY_ID")
-	ClientSecret := os.Getenv("SPOTIFY_SECRET")
-
-	fmt.Println(ClientID)
-	fmt.Println(ClientSecret)
+	fmt.Println("SpotifyClient: ", ClientID)
+	fmt.Println("SpotifySecret: ", ClientSecret)
 
 	ctx := context.Background()
 	config := &clientcredentials.Config{
