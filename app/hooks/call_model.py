@@ -4,7 +4,9 @@ import pickle
 import sys
 from sklearn.pipeline import Pipeline
 
-CATEGORIES = ['country', 'pop', 'rap', 'rock']
+CATEGORIES = ['country', 'hip-hop', 'metal', 'pop', 'rock']
+
+
 
 def PredictOnData(pipeline: Pipeline, input_t):
     inp = [input_t]

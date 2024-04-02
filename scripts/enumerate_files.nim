@@ -20,7 +20,8 @@ proc enum_files(oldDirName: string, newDirName: string, limit: int): void =
 var p = initOptParser()
 var limit: int = parseInt(p.cmdLineRest)
 
-enum_files("../data/country", "../train-data/country", limit)
-enum_files("../data/pop", "../train-data/pop", limit)
-enum_files("../data/rap", "../train-data/rap", limit)
-enum_files("../data/rock", "../train-data/rock", limit)
+enum_files("../data/train/country", "../train-data/country", limit)
+enum_files("../data/train/pop", "../train-data/pop", limit)
+enum_files("../data/train/hip-hop", "../train-data/hip-hop", limit)
+enum_files("../data/train/rock", "../train-data/rock", limit)
+enum_files("../data/train/metal", "../train-data/metal", limit)

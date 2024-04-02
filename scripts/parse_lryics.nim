@@ -4,19 +4,16 @@ import os
 
 proc get_lyrics(): void =
     var parser: CsvParser
-    parser.open("../data/trainp.csv")
+    parser.open("../data/en_lyrics.csv")
     parser.readHeaderRow()
 
-    var rock_i: int = 1
-    var metal_i: int = 1
     var pop_i: int = 1
-    var indie_i: int = 1
-    var rb_i: int = 1
-    var folk_i: int = 1
-    var electronic_i: int = 1
-    var jazz_i: int = 1
-    var hiphop_i: int = 1
     var country_i: int = 1
+    var blues_i: int = 1
+    var jazz_i: int = 1
+    var reggae_i: int = 1
+    var rock_i: int = 1
+    var hiphop_i: int = 1
 
     var count: int = 1
     var fName: string
@@ -26,54 +23,39 @@ proc get_lyrics(): void =
     while parser.readRow():
         fName = ""
         label = ""
-        genre = parser.rowEntry("genre")
+        genre = parser.rowEntry("tag")
 
-        if genre == "Rock":
+        if genre == "rock":
             label = "rock"
             fName.add(fmt"../data/train/{label}/")
             fName.add(fmt"file_{rock_i}.txt")
             rock_i += 1
-        elif genre == "Metal":
-            label = "metal"
+        elif genre == "blues":
+            label = "blues"
             fName.add(fmt"../data/train/{label}/")
-            fName.add(fmt"file_{metal_i}.txt")
-            metal_i += 1
-        elif genre == "Pop":
+            fName.add(fmt"file_{blues_i}.txt")
+            blues_i += 1
+        elif genre == "pop":
             label = "pop"
             fName.add(fmt"../data/train/{label}/")
             fName.add(fmt"file_{pop_i}.txt")
             pop_i += 1
-        elif genre == "Indie":
-            label = "indie"
+        elif genre == "reggae":
+            label = "reggae"
             fName.add(fmt"../data/train/{label}/")
-            fName.add(fmt"file_{indie_i}.txt")
-            indie_i += 1
-        elif genre == "R&B":
-            label = "r&b"
-            fName.add(fmt"../data/train/{label}/")
-            fName.add(fmt"file_{rb_i}.txt")
-            rb_i += 1
-        elif genre == "Folk":
-            label = "folk"
-            fName.add(fmt"../data/train/{label}/")
-            fName.add(fmt"file_{folk_i}.txt")
-            folk_i += 1
-        elif genre == "Electronic":
-            label = "electronic"
-            fName.add(fmt"../data/train/{label}/")
-            fName.add(fmt"file_{electronic_i}.txt")
-            electronic_i += 1
-        elif genre == "Jazz":
+            fName.add(fmt"file_{reggae_i}.txt")
+            reggae_i += 1
+        elif genre == "jazz":
             label = "jazz"
             fName.add(fmt"../data/train/{label}/")
             fName.add(fmt"file_{jazz_i}.txt")
             jazz_i += 1
-        elif genre == "Hip-Hop":
+        elif genre == "rap":
             label = "hip-hop"
             fName.add(fmt"../data/train/{label}/")
             fName.add(fmt"file_{hiphop_i}.txt")
             hiphop_i += 1
-        elif genre == "Country":
+        elif genre == "country":
             label = "country"
             fName.add(fmt"../data/train/{label}/")
             fName.add(fmt"file_{country_i}.txt")
@@ -87,8 +69,7 @@ proc get_lyrics(): void =
 
     parser.close()
 
-let genres = ["rock", "metal", "pop", "indie", "r&b", "folk", "electronic",
-        "jazz", "hip-hop", "country"]
+let genres = ["pop", "country", "blues", "jazz", "reggae", "rock", "hip-hop"]
 
 for genre in genres:
     if not dirExists(fmt"../data/train/{genre}/"):

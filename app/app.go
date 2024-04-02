@@ -58,17 +58,11 @@ func (a *App) Predict(songLyrics string) string {
 		panic(err)
 	}
 
-	var label string
 	output := strings.TrimSpace(string(pythonout))
 
 	// This is needed since spotifyapi prefers hip-hop over rap
-	if output == "rap" {
-		label = "hip-hop"
-	} else {
-		label = output
-	}
 
-	return label
+	return output
 }
 
 func (a *App) GetSpotifyRecommendations(songGenre string) string {

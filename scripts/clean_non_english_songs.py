@@ -8,7 +8,7 @@ tags = ['country', 'pop','r&b', 'rap', 'rock', 'acoustic', 'alternative', 'indy'
 writer = csv.DictWriter(new_file, fields)
 writer.writeheader()
 
-with open('song_lyrics.csv', 'r') as csvfile:
+with open('../data/song_lyrics.csv', 'r') as csvfile:
     reader = csv.DictReader(csvfile)
 
 
