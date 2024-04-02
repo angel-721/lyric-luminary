@@ -297,6 +297,7 @@ nimblecache/
 htmldocs/
 
 *.pkl
+*.zip
 
 build/bin
 node_modules
@@ -309,3 +310,6 @@ data/metal_lyrics.csv
 data/train/
 data/test/
 train-data/
+scripts/enumerate_files
+scripts/other_lyrics
+scripts/parse_lryics
