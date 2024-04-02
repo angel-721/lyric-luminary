@@ -40,7 +40,7 @@ else:
 
     STOPWORDS = "../train-data/stop-words.pkl"
 
-CATEGORIES = ['country', 'pop', 'rap', 'rock']
+CATEGORIES = ['country', 'hip-hop', 'metal', 'pop', 'rock']
 
 
 def GetData(dir_name: str = DIRNAME, save_data:bool = False):
@@ -58,7 +58,7 @@ def GetData(dir_name: str = DIRNAME, save_data:bool = False):
     print(DATA.target_names)
 
 
-    return XTRAIN, YTRAIN, XTEST, YTEST, DATA
+    return XTRAIN, YTRAIN, XTEST, YTEST
 
 
 
