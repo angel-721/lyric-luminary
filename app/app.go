@@ -38,6 +38,7 @@ type Song struct {
 	AlbumName     string `json:"album_name"`
 	TrackDuration string `json:"duration_ms"`
 	PreviewLink   string `json:"preview_link"`
+	TrackLink     string `json:"track_link"`
 }
 
 // App struct
@@ -140,6 +141,7 @@ func (a *App) GetSpotifyRecommendations(songGenre string) string {
 			AlbumName:     track.Album.Name,
 			TrackDuration: formatDuration(track.Duration),
 			PreviewLink:   track.PreviewURL,
+			TrackLink:     string(track.ExternalURLs["spotify"]),
 		}
 		recommendedTracks = append(recommendedTracks, newSong)
 

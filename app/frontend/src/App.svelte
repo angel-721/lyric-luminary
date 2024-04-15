@@ -1,9 +1,10 @@
 <script>
-  import { get } from "svelte/store";
   import { Predict } from "../wailsjs/go/main/App.js";
   import { GetSpotifyRecommendations } from "../wailsjs/go/main/App.js";
   import { GetGeniusLyrics } from "../wailsjs/go/main/App.js";
   import "@picocss/pico";
+  import Settings from "./Settings.svelte";
+  import {BrowserOpenURL} from "../wailsjs/runtime/runtime.js"
 
   let predictedGenre = "";
   let songLyrics = "";
@@ -63,6 +64,10 @@
     songLink = "";
     songLyrics = "";
     isLinkMode = !isLinkMode;
+  }
+
+  function openLink(trackUrl){
+    BrowserOpenURL(trackUrl)
   }
 
   function fetchRecommendations() {
@@ -136,16 +141,17 @@
     </div>
   {/if}
 
-  {#if isPredicting}
-    <button aria-busy="true">Predicting...</button>
-  {:else}
-    <button on:click={predict}>Predict!</button>
-  {/if}
-
-  {#if isLinkMode}
-    <button on:click={changeMode}>Manual Lyric Input</button>
-  {:else}
-    <button on:click={changeMode}>Genius Link Input</button>
+  {#if !hasPredicted}
+    {#if isPredicting}
+      <button aria-busy="true">Predicting...</button>
+    {:else}
+      <button on:click={predict}>Predict!</button>
+    {/if}
+    {#if isLinkMode}
+      <button on:click={changeMode}>Manual Lyric Input</button>
+    {:else}
+      <button on:click={changeMode}>Genius Link Input</button>
+    {/if}
   {/if}
 
   {#if isRecommending}
@@ -184,7 +190,6 @@
                       src={song.image_link}
                       alt=""
                       on:click={() => playPreview(song.preview_link)}
-                      class="song-image"
                     />
                     <div class="song-text-container">
                       <div class="song-text-div song-name">
@@ -201,6 +206,7 @@
                 </td>
                 <td>
                   <div class="song-duration-div">{song.duration_ms}</div>
+                  <button on:click={() => openLink(song.track_link)}>Open</button>
                 </td>
               </tr>
             </table>
