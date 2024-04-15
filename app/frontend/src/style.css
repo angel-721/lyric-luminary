@@ -1,81 +1,123 @@
+#main-app{
+	margin-top: 4rem;
+}
+
 .centered-div {
-	display: flex;
-	justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 #songs-ul {
-	display: flex;
-	width: 100%;
-	flex-direction: column;
-	text-align: center;
-	padding: 0;
-	margin: 0;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  text-align: center;
+  padding: 0;
+  margin: 0;
 }
 
-/* .song-li:nth-child(odd) { */
-/* 	background-color: rgba(235, 235, 245, 0.03); */
-/* } */
-
 .song-li:hover {
-	background-color: hsla(240, 3%, 49%, 0.41);
+  background-color: hsla(240, 3%, 49%, 0.41);
 }
 
 .song-li {
-	list-style: none;
-	padding-top: 1rem;
-	padding-bottom: 1rem;
-	color: hsl(0deg 0% 100% / 92%);
-	font-family: "Segoe UI";
+  list-style: none;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  color: hsl(0deg 0% 100% / 92%);
+  font-family: "Segoe UI";
 }
 
 .song-table {
-	width: 100%;
-	table-layout: fixed;
+  width: 100%;
+  table-layout: fixed;
 }
 
 .song-name-div {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 #song-top-div {
-	color: hsl(0deg 0% 100% / 64%);
-	text-align: center;
-	font-family: sans-serif;
+  color: hsl(0deg 0% 100% / 64%);
+  text-align: center;
+  font-family: sans-serif;
 }
 
 .song-image {
-	height: 100px;
-	width: 100px;
-	border-radius: 0.25rem;
-	object-fit: cover;
-	object-position: top;
+  height: 100px;
+  width: 100px;
+  border-radius: 0.25rem;
+  object-fit: cover;
+  object-position: top;
 }
 
 .song-text-container {
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 200px;
 }
 
 .song-text-div {
-	overflow: hidden;
-	text-overflow: ellipsis;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .song-name {
-	font-size: 0.9rem;
+  font-size: 0.9rem;
 }
 
 .artist-name {
-	font-size: 0.8rem;
-	color: gray;
+  font-size: 0.8rem;
+  color: gray;
 }
 .song-album-div {
-	white-space: nowrap;
+  white-space: nowrap;
 
-	overflow: hidden;
+  overflow: hidden;
 
-	text-overflow: ellipsis;
+  text-overflow: ellipsis;
 }
+
+.prediction-text {
+	font-size: 24px;
+	font-family: 'Montserrat', sans-serif;
+	color: #333;
+	text-align: center;
+	margin-top: 20px;
+	position: relative;
+  }
+  
+  .genre-reveal {
+	font-size: 36px;
+	font-weight: bold;
+	color: #f7f33b;
+	display: inline-block;
+	padding: 10px 20px;
+	background-color: #fff;
+	border-radius: 10px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	animation: fadeIn 1s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+	0% {
+	  opacity: 0;
+	  transform: translateY(20px);
+	}
+	100% {
+	  opacity: 1;
+	  transform: translateY(0);
+	}
+  }
+  
+  .centered-text {
+    text-align: center;
+  }
+
+  #lyric-text-area {
+    height: 100%;
+    width: 70%;
+    text-align: center;
+  }

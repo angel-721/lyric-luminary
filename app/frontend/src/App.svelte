@@ -4,7 +4,7 @@
   import { GetGeniusLyrics } from "../wailsjs/go/main/App.js";
   import "@picocss/pico";
   import Settings from "./Settings.svelte";
-  import {BrowserOpenURL} from "../wailsjs/runtime/runtime.js"
+  import { BrowserOpenURL } from "../wailsjs/runtime/runtime.js";
 
   let predictedGenre = "";
   let songLyrics = "";
@@ -66,8 +66,8 @@
     isLinkMode = !isLinkMode;
   }
 
-  function openLink(trackUrl){
-    BrowserOpenURL(trackUrl)
+  function openLink(trackUrl) {
+    BrowserOpenURL(trackUrl);
   }
 
   function fetchRecommendations() {
@@ -90,6 +90,11 @@
       isRecommending = false;
       hasRecommended = true;
     });
+  }
+  function resetPrediction() {
+    hasPredicted = false;
+    songLyrics = "";
+    songLink = "";
   }
 
   function playPreview(songUrl) {
@@ -118,8 +123,8 @@
   }
 </script>
 
-<main class="container">
-  <h1 class="centered-text">Music Genre Classifier</h1>
+<main class="container" id="main-app">
+  <h1 class="centered-text">Lyric Luminary</h1>
 
   {#if !isLinkMode}
     <div class="centered-div">
@@ -141,25 +146,40 @@
     </div>
   {/if}
 
-  {#if !hasPredicted}
-    {#if isPredicting}
-      <button aria-busy="true">Predicting...</button>
-    {:else}
-      <button on:click={predict}>Predict!</button>
+  <div id="button-div" class="centered-div">
+    {#if !hasPredicted}
+      {#if isPredicting}
+        <button aria-busy="true">Predicting...</button>
+      {:else}
+        <button on:click={predict}>Predict!</button>
+      {/if}
+      {#if isLinkMode}
+        <button on:click={changeMode}>Manual Lyric Input</button>
+      {:else}
+        <button on:click={changeMode}>Genius Link Input</button>
+      {/if}
     {/if}
-    {#if isLinkMode}
-      <button on:click={changeMode}>Manual Lyric Input</button>
-    {:else}
-      <button on:click={changeMode}>Genius Link Input</button>
-    {/if}
-  {/if}
 
-  {#if isRecommending}
-    <button aria-busy="true" aria-label="Please wait…">Recommending...</button>
-  {:else}
-    <button on:click={fetchRecommendations}>Get Spotify Recommendations</button>
+    {#if isRecommending}
+      <button aria-busy="true" aria-label="Please wait…">Recommending...</button
+      >
+    {:else}
+      <button on:click={fetchRecommendations}
+        >Get Spotify Recommendations</button
+      >
+    {/if}
+  </div>
+
+  {#if hasPredicted}
+    <p class="prediction-text">
+      And the predicted genre is... <strong class="genre-reveal"
+        >{predictedGenre}</strong
+      >!
+    </p>
+    <div class="centered-div">
+      <button on:click={resetPrediction}>Predict Again</button>
+    </div>
   {/if}
-  <p>{predictedGenre}</p>
 
   {#if hasRecommended}
     <h2>Recommendations</h2>
@@ -206,7 +226,9 @@
                 </td>
                 <td>
                   <div class="song-duration-div">{song.duration_ms}</div>
-                  <button on:click={() => openLink(song.track_link)}>Open</button>
+                  <button on:click={() => openLink(song.track_link)}
+                    >Open</button
+                  >
                 </td>
               </tr>
             </table>
@@ -216,15 +238,3 @@
     </div>
   {/if}
 </main>
-
-<style>
-  .centered-text {
-    text-align: center;
-  }
-
-  #lyric-text-area {
-    height: 100%;
-    width: 70%;
-    text-align: center;
-  }
-</style>
