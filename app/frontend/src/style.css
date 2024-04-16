@@ -1,46 +1,23 @@
-#main-app {
-  margin-top: 2rem;
+html,
+body {
+  height: 100%;
+  margin: 0;
 }
-
-html, body {
-	height: 100%;
-	margin: 0;
-  }
 
 .centered-div {
   display: flex;
   justify-content: center;
 }
 
-h1{
+h1 {
   text-align: center;
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
 
-#songs-ul {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  text-align: center;
-  padding: 0;
-  margin: 0;
-}
-
-.song-li:hover {
-  background-color: hsla(240, 3%, 49%, 0.41);
-}
-
-.song-li {
-  list-style: none;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  font-family: "Segoe UI";
-}
-
 .song-table {
-  width: 100%;
   table-layout: fixed;
+  width: 100%;
 }
 
 .song-name-div {
@@ -48,6 +25,10 @@ h1{
   grid-template-columns: 1fr 1fr;
 }
 
+.song-image-container {
+  position: relative;
+  display: inline-block;
+}
 
 .song-image {
   height: 100px;
@@ -57,6 +38,29 @@ h1{
   object-position: top;
 }
 
+.play-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+
+.play-overlay:hover {
+  opacity: 1;
+}
+
+.play-overlay i {
+  color: white;
+  font-size: 24px;
+}
+
 .song-text-container {
   overflow: hidden;
   white-space: nowrap;
@@ -64,6 +68,7 @@ h1{
   max-width: 200px;
   padding-left: 2rem;
 }
+
 
 .song-text-div {
   overflow: hidden;
@@ -87,23 +92,17 @@ h1{
 }
 
 .prediction-text {
-  font-size: 24px;
+  font-size: 38px;
   font-family: "Montserrat", sans-serif;
   color: #333;
   text-align: center;
   margin-top: 20px;
-  position: relative;
 }
 
 .genre-reveal {
-  font-size: 36px;
   font-weight: bold;
-  color: #f7f33b;
   display: inline-block;
-  padding: 10px 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding-left: 5px;
   animation: fadeIn 1s ease-in-out;
 }
 
@@ -128,12 +127,10 @@ h1{
   text-align: center;
 }
 
-
 #predictbulb {
   height: 250px;
   width: 250px;
 }
-
 
 @keyframes fadeOut {
   0% {
@@ -165,6 +162,7 @@ h1{
   display: flex;
   justify-content: center;
   gap: 20px; /* Adjust the gap value to increase or decrease the space between buttons */
+  margin-top: 20px;
   margin-bottom: 20px;
 }
 
@@ -217,25 +215,26 @@ h1{
 }
 
 #spotify-logo:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 
-#img-div{
-	margin-top: 2rem;
-	margin-bottom: 3rem;
+#img-div {
+  margin-top: 2rem;
+  margin-bottom: 3rem;
 }
 
 .main-grid {
-	display: grid;
-	grid-template-columns: 1fr 4fr 1fr;
-	height: 100vh;
-  }
-  
-  #left-div, #right-div {
-	background-color: black;
-  }
-  
-  #middle-div {
-	background-color: white;
-	padding: 20px;
-  }
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr;
+  height: 100vh;
+}
+
+#left-div,
+#right-div {
+  background-color: black;
+}
+
+#middle-div {
+  background-color: #e2e2e2;
+  padding: 20px;
+}

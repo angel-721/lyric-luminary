@@ -5,7 +5,8 @@
     "linux/*": "sh ../../hooks/linux_build.sh",
     "windows/*": "powershell .\\.\\hooks\\windows_build.bat"
   },
-  "outputfilename": "music-genere-lyric-classification",
+  "assetdir": "frontend/assets",
+  "outputfilename": "lyric-luminary",
   "frontend:install": "npm install",
   "frontend:build": "npm run build",
   "frontend:dev:watcher": "npm run dev",
