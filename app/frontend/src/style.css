@@ -2,9 +2,20 @@
   margin-top: 2rem;
 }
 
+html, body {
+	height: 100%;
+	margin: 0;
+  }
+
 .centered-div {
   display: flex;
   justify-content: center;
+}
+
+h1{
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 #songs-ul {
@@ -117,21 +128,12 @@
   text-align: center;
 }
 
-#logo {
-  height: 280px;
-  height: 280px;
-  margin: 0 auto;
-  display: block;
+
+#predictbulb {
+  height: 250px;
+  width: 250px;
 }
 
-#predictblub {
-  height: 180px;
-  width: 180px;
-}
-
-#predictblub:hover {
-  cursor: pointer;
-}
 
 @keyframes fadeOut {
   0% {
@@ -217,3 +219,23 @@
 #spotify-logo:hover {
 	cursor: pointer;
 }
+
+#img-div{
+	margin-top: 2rem;
+	margin-bottom: 3rem;
+}
+
+.main-grid {
+	display: grid;
+	grid-template-columns: 1fr 4fr 1fr;
+	height: 100vh;
+  }
+  
+  #left-div, #right-div {
+	background-color: black;
+  }
+  
+  #middle-div {
+	background-color: white;
+	padding: 20px;
+  }

@@ -3,13 +3,13 @@
   import { GetSpotifyRecommendations } from "../wailsjs/go/main/App.js";
   import { GetGeniusLyrics } from "../wailsjs/go/main/App.js";
   import "@picocss/pico";
-  import Settings from "./Settings.svelte";
   import { BrowserOpenURL } from "../wailsjs/runtime/runtime.js";
 
   let predictedGenre = "";
   let songLyrics = "";
   let recommendations = [];
   let songLink = "";
+  let lyricRows = 1;
   $: recommendations = recommendations;
 
   let currentSong = null;
@@ -20,6 +20,8 @@
   let hasPredicted = false;
   let hasRecommended = false;
   let isLinkMode = false;
+
+  var lyricTextArea;
 
   $: {
     isPredicting;
@@ -73,6 +75,7 @@
     );
 
     // Limit the number of rows to the maximum allowed
+    lyricRows = rows;
     if (rows > maxRows) {
       textarea.style.overflowY = "scroll";
       textarea.style.height = `${maxRows * parseFloat(getComputedStyle(textarea).lineHeight)}px`;
@@ -113,9 +116,12 @@
     });
   }
   function resetPrediction() {
+    lyricRows = 1;
     hasPredicted = false;
     songLyrics = "";
     songLink = "";
+    recommendations = [];
+    hasRecommended = false;
   }
 
   function playPreview(songUrl) {
@@ -144,153 +150,163 @@
   }
 </script>
 
-<main class="container" id="main-app">
-  <img id="logo" src="assets/logo.png" alt="logo" />
-
-  {#if !isLinkMode}
-    <div class="centered-div">
-      <textarea
-        bind:value={songLyrics}
-        placeholder="Enter Song Lyrics Here"
-        rows="1"
-        id="lyric-text-area"
-        on:input={handleInput}
-        style="height: auto; overflow-y: hidden;"
-        disabled={hasPredicted}
-      />
-    </div>
-  {:else}
-    <div class="centered-div">
-      <textarea
-        bind:value={songLink}
-        placeholder="Enter Genius Link Here"
-        rows="1"
-        id="lyric-text-area"
-        on:input={handleInput}
-        style="height: auto; overflow-y: hidden;"
-        disabled={hasPredicted}
-      />
-    </div>
-  {/if}
-
-  {#if !hasPredicted}
-    <div id="button-div" class="centered-div">
-      {#if isLinkMode}
-        <button on:click={changeMode} disabled={isPredicting}>
-          {#if isPredicting}Predicting...{:else}Switch to Manual Lyric Input{/if}
-        </button>
+<main class="main-grid" id="main-app">
+  <div id="left-div" >
+  </div>
+  <div id="middle-div">
+    <h1>Lyric Luminary</h1>
+    <div id="img-div" class="centered-div">
+      {#if hasPredicted}
+        <img
+          id="predictbulb"
+          class:fade-in={hasPredicted}
+          src="assets/predictbulb.svg"
+          alt="blub"
+        />
       {:else}
-        <button on:click={changeMode} disabled={isPredicting}>
-          {#if isPredicting}Predicting...{:else}Switch to Genius Link Input{/if}
-        </button>
+        <img
+          id="predictbulb"
+          class:fade-out={hasPredicted}
+          class:tilt={isPredicting}
+          src="assets/darkbulb.svg"
+          alt="blub"
+        />
       {/if}
     </div>
 
-    <div id="predict-area" class="centered-div">
-      <img
-        id="predictblub"
-        class:fade-out={hasPredicted}
-        on:click={predict}
-        src="assets/darkbulb.svg"
-        class:tilt={isPredicting}
-        alt="logo"
-      />
-      <p>Predict</p>
-    </div>
-  {/if}
-
-  {#if hasPredicted}
-    <div id="button-div" class="centered-div">
-      {#if isRecommending}
-        <button aria-busy="true" aria-label="Please wait…"
-          >Recommending...</button
-        >
-      {:else}
-        <button on:click={fetchRecommendations}
-          >Get Spotify Recommendations</button
-        >
-      {/if}
+    {#if !isLinkMode}
       <div class="centered-div">
-        <button on:click={resetPrediction}>Predict on a New Song</button>
+        <textarea
+          bind:value={songLyrics}
+          placeholder="Enter Song Lyrics Here"
+          rows={lyricRows}
+          id="lyric-text-area"
+          on:input={handleInput}
+          style="height: auto; overflow-y: hidden;"
+          disabled={hasPredicted}
+        />
       </div>
-    </div>
-    <div id="predict-area" class="centered-div">
-      <img
-        id="predictblub"
-        class:fade-in={hasPredicted}
-        src="assets/predictbulb.svg"
-        alt="logo"
-      />
-    </div>
+    {:else}
+      <div class="centered-div">
+        <textarea
+          bind:value={songLink}
+          placeholder="Enter Genius Link Here"
+          rows="1"
+          id="lyric-text-area"
+          on:input={handleInput}
+          style="height: auto; overflow-y: hidden;"
+          disabled={hasPredicted}
+        />
+      </div>
+    {/if}
 
-    <p class="prediction-text">
-      And the predicted genre is... <strong class="genre-reveal"
-        >{predictedGenre}</strong
-      >!
-    </p>
-  {/if}
+    {#if !hasPredicted}
+      <div id="button-div" class="centered-div">
+        <button on:click={predict} disabled={isPredicting}>
+          {#if isPredicting}Predicting...{:else}Predict{/if}
+        </button>
+        {#if isLinkMode}
+          <button on:click={changeMode} disabled={isPredicting}>
+            {#if isPredicting}Predicting...{:else}Switch to Manual Lyric Input{/if}
+          </button>
+        {:else}
+          <button on:click={changeMode} disabled={isPredicting}>
+            {#if isPredicting}Predicting...{:else}Switch to Genius Link Input{/if}
+          </button>
+        {/if}
+      </div>
+    {/if}
 
-  {#if hasRecommended && hasPredicted}
-    <h2>Recommendations</h2>
+    {#if hasPredicted}
+      <div id="button-div" class="centered-div">
+        {#if isRecommending}
+          <button aria-busy="true" aria-label="Please wait…"
+            >Recommending...</button
+          >
+        {:else}
+          <button on:click={fetchRecommendations}
+            >Get Spotify Recommendations</button
+          >
+        {/if}
+        <div class="centered-div">
+          <button on:click={resetPrediction}>Predict on a New Song</button>
+        </div>
+      </div>
+      <div id="predict-area" class="centered-div"></div>
 
-    <table class="song-table">
-      <tr>
-        <td>
-          <div class="song-title-top-div">Title</div>
-        </td>
-        <td>
-          <div class="song-artist-top-div">Album</div>
-        </td>
-        <td>
-          <div class="song-length-top-div">Length</div>
-        </td>
-      </tr>
-    </table>
+      <p class="prediction-text">
+        And the predicted genre is... <strong class="genre-reveal"
+          >{predictedGenre}</strong
+        >!
+      </p>
+    {/if}
 
-    <div id="songs-div">
-      <ul id="songs-ul">
-        {#each recommendations as song}
-          <li class="song-li">
-            <table class="song-table">
-              <tr class="song-tr">
-                <td>
-                  <div class="song-name-div">
-                    <img
-                      src={song.image_link}
-                      on:click={() => playPreview(song.preview_link)}
-                    />
-                    <div class="vertical-center">
-                      <div class="song-text-container">
-                        <div class="song-text-div song-name">
-                          {song.track_name}
-                        </div>
-                        <div class="song-text-div artist-name">
-                          {song.artist_name}
+    {#if hasRecommended && hasPredicted}
+      <h2>Recommendations</h2>
+
+      <table class="song-table">
+        <tr>
+          <td>
+            <div class="song-title-top-div">Title</div>
+          </td>
+          <td>
+            <div class="song-artist-top-div">Album</div>
+          </td>
+          <td>
+            <div class="song-length-top-div">Length</div>
+          </td>
+        </tr>
+      </table>
+
+      <div id="songs-div">
+        <ul id="songs-ul">
+          {#each recommendations as song}
+            <li class="song-li">
+              <table class="song-table">
+                <tr class="song-tr">
+                  <td>
+                    <div class="song-name-div">
+                      <img
+                        src={song.image_link}
+                        on:click={() => playPreview(song.preview_link)}
+                        alt="song image"
+                      />
+                      <div class="vertical-center">
+                        <div class="song-text-container">
+                          <div class="song-text-div song-name">
+                            {song.track_name}
+                          </div>
+                          <div class="song-text-div artist-name">
+                            {song.artist_name}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </td>
-                <td>
-                  <div class="song-name-div">
-                    <div class="song-album-div">{song.album_name}</div>
-                  </div>
-                </td>
-                <td>
-                  <div class="vertical-center">
-                  <div class="song-duration-div">{song.duration_ms}</div>
-                    <img
-                      src="assets/spotify.svg"
-                      on:click={() => openLink(song.track_link)}
-                      id="spotify-logo"
-                    />
-                  </div>
-                </td>
-              </tr>
-            </table>
-          </li>
-        {/each}
-      </ul>
-    </div>
-  {/if}
+                  </td>
+                  <td>
+                    <div class="song-name-div">
+                      <div class="song-album-div">{song.album_name}</div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="vertical-center">
+                      <div class="song-duration-div">{song.duration_ms}</div>
+                      <img
+                        src="assets/spotify.svg"
+                        on:click={() => openLink(song.track_link)}
+                        id="spotify-logo"
+                        alt="spotify logo"
+                      />
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </li>
+          {/each}
+        </ul>
+      </div>
+    {/if}
+  </div>
+  <div id="right-div">
+  </div>
 </main>
