@@ -1,5 +1,5 @@
-#main-app{
-	margin-top: 4rem;
+#main-app {
+  margin-top: 2rem;
 }
 
 .centered-div {
@@ -24,7 +24,6 @@
   list-style: none;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  color: hsl(0deg 0% 100% / 92%);
   font-family: "Segoe UI";
 }
 
@@ -38,11 +37,6 @@
   grid-template-columns: 1fr 1fr;
 }
 
-#song-top-div {
-  color: hsl(0deg 0% 100% / 64%);
-  text-align: center;
-  font-family: sans-serif;
-}
 
 .song-image {
   height: 100px;
@@ -57,6 +51,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   max-width: 200px;
+  padding-left: 2rem;
 }
 
 .song-text-div {
@@ -81,43 +76,144 @@
 }
 
 .prediction-text {
-	font-size: 24px;
-	font-family: 'Montserrat', sans-serif;
-	color: #333;
-	text-align: center;
-	margin-top: 20px;
-	position: relative;
-  }
-  
-  .genre-reveal {
-	font-size: 36px;
-	font-weight: bold;
-	color: #f7f33b;
-	display: inline-block;
-	padding: 10px 20px;
-	background-color: #fff;
-	border-radius: 10px;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-	animation: fadeIn 1s ease-in-out;
-  }
-  
-  @keyframes fadeIn {
-	0% {
-	  opacity: 0;
-	  transform: translateY(20px);
-	}
-	100% {
-	  opacity: 1;
-	  transform: translateY(0);
-	}
-  }
-  
-  .centered-text {
-    text-align: center;
-  }
+  font-size: 24px;
+  font-family: "Montserrat", sans-serif;
+  color: #333;
+  text-align: center;
+  margin-top: 20px;
+  position: relative;
+}
 
-  #lyric-text-area {
-    height: 100%;
-    width: 70%;
-    text-align: center;
+.genre-reveal {
+  font-size: 36px;
+  font-weight: bold;
+  color: #f7f33b;
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
   }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.centered-text {
+  text-align: center;
+}
+
+#lyric-text-area {
+  height: 100%;
+  width: 50%;
+  text-align: center;
+}
+
+#logo {
+  height: 280px;
+  height: 280px;
+  margin: 0 auto;
+  display: block;
+}
+
+#predictblub {
+  height: 180px;
+  width: 180px;
+}
+
+#predictblub:hover {
+  cursor: pointer;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fade-out {
+  animation: fadeOut 0.5s ease-in-out;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+#button-div {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Adjust the gap value to increase or decrease the space between buttons */
+  margin-bottom: 20px;
+}
+
+#predict-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#predictblub {
+  width: 100px; /* Adjust the width of the image */
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.prediction-text {
+  margin-bottom: 20px;
+}
+
+@keyframes tilt {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-10deg);
+  }
+  75% {
+    transform: rotate(10deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.tilt {
+  animation: tilt 1s ease-in-out infinite;
+}
+
+.vertical-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#spotify-logo {
+  height: 50px;
+  width: 50px;
+  margin: 0 auto;
+  display: block;
+}
+
+#spotify-logo:hover {
+	cursor: pointer;
+}
