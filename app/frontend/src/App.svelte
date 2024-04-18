@@ -149,172 +149,168 @@
   }
 </script>
 
-<main class="grid">
-  <div class="main-grid">
-    <div id="left-div"></div>
-    <div id="middle-div">
-      <h1>Lyric Luminary</h1>
+<main class="container">
+  <h1>Lyric Luminary</h1>
 
-      {#if hasPredicted}
-        <div id="img-div" class="centered-div">
-          <img
-            id="predictbulb"
-            class:fade-in={hasPredicted}
-            src="assets/predictbulb.svg"
-            alt="blub"
-          />
-        </div>
-        <p class="prediction-text">
-          And the predicted genre is <strong class="genre-reveal"
-            >{predictedGenre}</strong
-          >!
-        </p>
+  {#if hasPredicted}
+    <div id="img-div" class="centered-div">
+      <img
+        id="predictbulb"
+        class:fade-in={hasPredicted}
+        src="assets/predictbulb.svg"
+        alt="blub"
+      />
+    </div>
+    <p class="prediction-text">
+      And the predicted genre is <strong class="genre-reveal"
+        >{predictedGenre}</strong
+      >!
+    </p>
+  {:else}
+    <div id="img-div" class="centered-div">
+      <img
+        id="predictbulb"
+        class:fade-out={hasPredicted}
+        class:tilt={isPredicting}
+        src="assets/darkbulb.svg"
+        alt="blub"
+      />
+    </div>
+    {#if isPredicting}
+      <p class="prediction-text">And the predicted genre is ...</p>{/if}
+  {/if}
+
+  {#if !isLinkMode}
+    <div class="centered-div">
+      <textarea
+        bind:value={songLyrics}
+        placeholder="Enter Song Lyrics Here"
+        rows={lyricRows}
+        id="lyric-text-area"
+        on:input={handleInput}
+        style="height: auto; overflow-y: hidden;"
+        disabled={hasPredicted}
+      />
+    </div>
+  {:else}
+    <div class="centered-div">
+      <textarea
+        bind:value={songLink}
+        placeholder="Enter Genius Link Here"
+        rows="1"
+        id="lyric-text-area"
+        on:input={handleInput}
+        style="height: auto; overflow-y: hidden;"
+        disabled={hasPredicted}
+      />
+    </div>
+  {/if}
+
+  {#if !hasPredicted}
+    <div id="button-div" class="centered-div">
+      <button on:click={predict} disabled={isPredicting} class="yellow-button">
+        {#if isPredicting}Predicting...{:else}Predict{/if}
+      </button>
+      {#if isLinkMode}
+        <button on:click={changeMode} disabled={isPredicting} class="other-button">
+          {#if isPredicting}Predicting...{:else}Switch to Manual Lyric Input{/if}
+        </button>
       {:else}
-        <div id="img-div" class="centered-div">
-          <img
-            id="predictbulb"
-            class:fade-out={hasPredicted}
-            class:tilt={isPredicting}
-            src="assets/darkbulb.svg"
-            alt="blub"
-          />
-        </div>
-        {#if isPredicting}
-          <p class="prediction-text">And the predicted genre is ...</p>{/if}
-      {/if}
-
-      {#if !isLinkMode}
-        <div class="centered-div">
-          <textarea
-            bind:value={songLyrics}
-            placeholder="Enter Song Lyrics Here"
-            rows={lyricRows}
-            id="lyric-text-area"
-            on:input={handleInput}
-            style="height: auto; overflow-y: hidden;"
-            disabled={hasPredicted}
-          />
-        </div>
-      {:else}
-        <div class="centered-div">
-          <textarea
-            bind:value={songLink}
-            placeholder="Enter Genius Link Here"
-            rows="1"
-            id="lyric-text-area"
-            on:input={handleInput}
-            style="height: auto; overflow-y: hidden;"
-            disabled={hasPredicted}
-          />
-        </div>
-      {/if}
-
-      {#if !hasPredicted}
-        <div id="button-div" class="centered-div">
-          <button on:click={predict} disabled={isPredicting}>
-            {#if isPredicting}Predicting...{:else}Predict{/if}
-          </button>
-          {#if isLinkMode}
-            <button on:click={changeMode} disabled={isPredicting}>
-              {#if isPredicting}Predicting...{:else}Switch to Manual Lyric Input{/if}
-            </button>
-          {:else}
-            <button on:click={changeMode} disabled={isPredicting}>
-              {#if isPredicting}Predicting...{:else}Switch to Genius Link Input{/if}
-            </button>
-          {/if}
-        </div>
-      {/if}
-
-      {#if hasPredicted}
-        <div id="button-div" class="centered-div">
-          {#if isRecommending}
-            <button aria-busy="true" aria-label="Please wait…"
-              >Recommending...</button
-            >
-          {:else}
-            <button on:click={fetchRecommendations}
-              >Get Spotify Recommendations</button
-            >
-          {/if}
-          <div class="centered-div">
-            <button on:click={resetPrediction}>Predict on a New Song</button>
-          </div>
-        </div>
-        <div id="predict-area" class="centered-div"></div>
-      {/if}
-
-      {#if hasRecommended && hasPredicted}
-        <h2>Recommendations</h2>
-
-        <table class="song-table">
-          <thead>
-            <th>
-              <div class="song-title-top-div">Title</div>
-            </th>
-            <th>
-              <div class="song-artist-top-div">Album</div>
-            </th>
-            <th>
-              <div class="song-length-top-div">Length</div>
-            </th>
-          </thead>
-
-          <tbody data-theme="dark">
-            {#each recommendations as song}
-              <tr class="song-tr">
-                <td>
-                  <div class="song-name-div">
-                    <div class="song-image-container">
-                      <!-- svelte-ignore a11y-img-redundant-alt -->
-                      <img
-                        class="song-image"
-                        src={song.image_link}
-                        alt="song image"
-                      />
-                      <!-- svelte-ignore a11y-click-events-have-key-events -->
-                      <div
-                        class="play-overlay"
-                        on:click={() => playPreview(song.preview_link)}
-                      >
-                        <i class="fas fa-play"></i>
-                      </div>
-                    </div>
-                    <div class="vertical-center">
-                      <div class="song-text-container">
-                        <div class="song-text-div song-name">
-                          {song.track_name}
-                        </div>
-                        <div class="song-text-div artist-name">
-                          {song.artist_name}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div class="song-name-div">
-                    <div class="song-album-div">{song.album_name}</div>
-                  </div>
-                </td>
-                <td>
-                  <div class="vertical-center">
-                    <div class="song-duration-div">{song.duration_ms}</div>
-                    <!-- svelte-ignore a11y-click-events-have-key-events -->
-                    <img
-                      src="assets/spotify.svg"
-                      on:click={() => openLink(song.track_link)}
-                      id="spotify-logo"
-                      alt="spotify logo"
-                    />
-                  </div>
-                </td>
-              </tr>
-            {/each}
-          </tbody>
-        </table>
+        <button on:click={changeMode} disabled={isPredicting} class="yellow-button">
+          {#if isPredicting}Predicting...{:else}Switch to Genius Link Input{/if}
+        </button>
       {/if}
     </div>
-    <div id="right-div"></div>
-  </div>
+  {/if}
+
+  {#if hasPredicted}
+    <div id="button-div" class="centered-div">
+      {#if isRecommending}
+        <button class="spotify" aria-busy="true" aria-label="Please wait…"
+          >Recommending...</button
+        >
+      {:else}
+        <button class="spotify" on:click={fetchRecommendations}
+          >Get Spotify Recommendations</button
+        >
+      {/if}
+      <div class="centered-div">
+        <button class="yellow-button" on:click={resetPrediction}>Predict on a New Song</button>
+      </div>
+    </div>
+    <div id="predict-area" class="centered-div"></div>
+  {/if}
+
+  {#if hasRecommended && hasPredicted}
+    <div id="recs">
+      <h2 style="text-align: center;">Recommendations</h2>
+    </div>
+
+    <table class="song-table">
+      <thead>
+        <th>
+          <div class="song-title-top-div">Title</div>
+        </th>
+        <th>
+          <div class="song-artist-top-div">Album</div>
+        </th>
+        <th>
+          <div class="song-length-top-div">Length</div>
+        </th>
+      </thead>
+
+      <tbody data-theme="dark">
+        {#each recommendations as song}
+          <tr class="song-tr">
+            <td>
+              <div class="song-name-div">
+                <div class="song-image-container">
+                  <!-- svelte-ignore a11y-img-redundant-alt -->
+                  <img
+                    class="song-image"
+                    src={song.image_link}
+                    alt="song image"
+                  />
+                  <!-- svelte-ignore a11y-click-events-have-key-events -->
+                  <div
+                    class="play-overlay"
+                    on:click={() => playPreview(song.preview_link)}
+                  >
+                    <i class="fas fa-play"></i>
+                  </div>
+                </div>
+                <div class="vertical-center">
+                  <div class="song-text-container">
+                    <div class="song-text-div song-name">
+                      {song.track_name}
+                    </div>
+                    <div class="song-text-div artist-name">
+                      {song.artist_name}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="song-name-div">
+                <div class="song-album-div">{song.album_name}</div>
+              </div>
+            </td>
+            <td>
+              <div class="vertical-center">
+                <div class="song-duration-div">{song.duration_ms}</div>
+                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                <img
+                  src="assets/spotify.svg"
+                  on:click={() => openLink(song.track_link)}
+                  id="spotify-logo"
+                  alt="spotify logo"
+                />
+              </div>
+            </td>
+          </tr>
+        {/each}
+      </tbody>
+    </table>
+  {/if}
 </main>
