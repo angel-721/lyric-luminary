@@ -5,6 +5,9 @@
   import "@picocss/pico";
   import { BrowserOpenURL } from "../wailsjs/runtime/runtime.js";
   import "./style.css";
+  import predictbulb from "./assets/images/predictbulb.svg";
+  import darkbulb from "./assets/images/darkbulb.svg";
+  import spotifylogo from "./assets/images/spotify.svg";
 
   let predictedGenre = "";
   let songLyrics = "";
@@ -157,7 +160,7 @@
       <img
         id="predictbulb"
         class:fade-in={hasPredicted}
-        src="assets/predictbulb.svg"
+        src={predictbulb}
         alt="blub"
       />
     </div>
@@ -172,7 +175,7 @@
         id="predictbulb"
         class:fade-out={hasPredicted}
         class:tilt={isPredicting}
-        src="assets/darkbulb.svg"
+        src={darkbulb}
         alt="blub"
       />
     </div>
@@ -301,7 +304,7 @@
                 <div class="song-duration-div">{song.duration_ms}</div>
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
                 <img
-                  src="assets/spotify.svg"
+                  src={spotifylogo}
                   on:click={() => openLink(song.track_link)}
                   id="spotify-logo"
                   alt="spotify logo"

@@ -5,7 +5,6 @@
     "linux/*": "sh ../../hooks/linux_build.sh",
     "windows/*": "powershell .\\.\\hooks\\windows_build.bat"
   },
-  "assetdir": "frontend/assets",
   "outputfilename": "lyric-luminary",
   "frontend:install": "npm install",
   "frontend:build": "npm run build",
