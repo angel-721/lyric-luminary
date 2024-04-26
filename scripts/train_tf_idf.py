@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Code is heavily modifed from scikit-learn guide for working with text data
+# https://scikit-learn.org/stable/tutorial/text_analytics/working_with_text_data.html
 
 import argparse
 import pickle
@@ -8,7 +10,6 @@ from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
 from sklearn.utils import Bunch
 from sklearn.datasets import load_files
 from sklearn.pipeline import Pipeline
-# from sklearn.linear_model import SGDClassifier
 from sklearn.naive_bayes import ComplementNB
 from  sklearn.model_selection import GridSearchCV, train_test_split
 
