@@ -16,6 +16,7 @@ cd build/bin
 ./lyric-luminary
 ```
 MAKE SURE YOU HAVE A .env with your API keys.
+THIS MAY OR MAY NOT WORK ON WINDOWS.
 
 ![lyric-lum](https://github.com/angel-721/lyric-luminary/assets/75283919/d1b4cb50-0a9e-40a0-ac2e-97c2e6d5cb1b)
 
