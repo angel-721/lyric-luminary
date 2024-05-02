@@ -1,8 +1,4 @@
 # Lyric Luminary
-
-## CS-4600 Spring 2024 
-
-### Angel Velasquez
 This is a fun project that aims to view lyrics via the lens of a text classification model. I'm experimenting with TF-IDF(and hopefully BERT) to classify songs into a genere via the lyrics of the song. 
 
 ## Setup and Install
@@ -23,10 +19,11 @@ MAKE SURE YOU HAVE A .env with your API keys.
 
 ![lyric-lum](https://github.com/angel-721/lyric-luminary/assets/75283919/d1b4cb50-0a9e-40a0-ac2e-97c2e6d5cb1b)
 
-#### Checklist
-___
- * [x] Prototype a TF-IDF model
- * [x] Create Wails Desktop App for the model
- * [x] Get backend working with [Spotify Web API](https://developer.spotify.com/documentation/web-api)
- * [x] Get backend working with [Genius Web API](https://docs.genius.com/)
- * [x] Make a front end for users to interact with the model(s)
+### Training a Model
+1) Use the nim scripts to break down this [csv](https://www.kaggle.com/datasets/carlosgdcj/genius-song-lyrics-with-language-information) into txt files
+2) Run the main.py with the arg of train ```python main.py train```bash
+
+#### Model specs
+- [Tfidf Vectorizer](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html)
+- [Naive Bayes Classifier](https://scikit-learn.org/stable/modules/naive_bayes.html)
+- [Stop words](https://gist.github.com/ethen8181/d57e762f81aa643744c2ffba5688d33a)
