@@ -7,7 +7,7 @@ This is a fun project that aims to view lyrics via the lens of a text classifica
 
 ## Setup and Install
 ### Prerequisites
-- Go
+- [Go](https://go.dev/)
 - [Wails](https://wails.io/)
 - [Python3](https://www.python.org/downloads/)
 - [Node](https://nodejs.org/en)
