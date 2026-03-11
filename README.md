@@ -2,7 +2,9 @@
 This is a fun project that aims to view lyrics via the lens of a text classification model. I'm experimenting with TF-IDF(and hopefully BERT) to classify songs into a genere via the lyrics of the song. 
 
 ## Note:
-I did redo the applicatoin side of this project. Not the ML side since I'm yet to find a large enough dataset for song lyrics that's annotated "correctly" enough for my use case of chunked attention learning for a more advanced model. Check out the frontend ![here](https://luminary.angelv.dev/)!  
+I did redo the applicatoin side of this project. Not the ML side since I'm yet to find a large enough dataset for song lyrics that's annotated "correctly" enough for my use case of chunked attention learning for a more advanced model. Check out the frontend ![here](https://luminary.angelv.dev/)!
+
+The model is hosted on a [Hugging Face Space](https://huggingface.co/spaces/angel-721/song-genre-classifier/tree/main)
 
 ## Setup and Install
 ### Prerequisites
